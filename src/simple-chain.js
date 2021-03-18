@@ -6,7 +6,7 @@ const chainMaker = {
     return this.string.length;
   },
   addLink(value) {
-    if(!value){
+    if(value === ''){
      this.string.push('( )');
      return this;
     }else{
@@ -15,16 +15,22 @@ const chainMaker = {
     }
   },
   removeLink(position) {
-   this.string.splice(position, 1);
-   return this;
+    if(typeof position === 'number' && !isNaN(position) && Number.isInteger(position) && typeof this.string[position - 1] !== 'undefined'){
+      this.string.splice(position - 1, 1);
+      return this;
+    }else{
+    this.finishChain();
+     throw new Error();
+    } 
   },
   reverseChain() {
    this.string.reverse();
    return this;
   },
   finishChain() {
-    const str = this.string.join('~~');
-    return str;
+      const str = this.string.join('~~');
+      this.string = [];
+      return str;
   }
 };
 
